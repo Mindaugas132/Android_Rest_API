@@ -40,4 +40,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // retrofit 2
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+// recyclerview
+    implementation(libs.recyclerview)
+    implementation(libs.recyclerview.selection)
+
+// cardview
+    implementation(libs.cardview)
+
+// glide
+    implementation(libs.glide)
 }
