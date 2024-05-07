@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import lt.mindaugas.androidrestapi.entity.UserResponse;
 import lt.mindaugas.androidrestapi.entity.UsersResponse;
 import lt.mindaugas.androidrestapi.network.UserDataService;
 import lt.mindaugas.androidrestapi.network.UserServiceClient;
@@ -40,7 +41,23 @@ public class RemoteRepository {
                     }
                 }
         );
+    }
 
+    public void fetchUserById(int id) {
+        service.getUser(id).enqueue(
+                new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.i("tst_rest_api", "onResponse Single user: " + response.body());
+                        Log.i("tst_rest_api", "onResponse Single user: " + response.body().getUser());
+                    }
 
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.i("tst_rest_api", "Failed to retrieve data" + t.getMessage());
+                        call.cancel();
+                    }
+                }
+        );
     }
 }
