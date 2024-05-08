@@ -13,8 +13,8 @@ public class MainViewModel extends ViewModel {
     private final RemoteRepository remoteRepository;
 
     public MainViewModel() {
-        remoteRepository = new RemoteRepository();
-        usersResponseLiveData = remoteRepository.fetchAllUsers();
+        this.remoteRepository = new RemoteRepository();
+        this.usersResponseLiveData = remoteRepository.fetchAllUsers();
     }
 
     public void requestUsersResponse() {
