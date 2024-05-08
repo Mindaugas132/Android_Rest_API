@@ -50,13 +50,17 @@ public class RemoteRepository {
         return liveData;
     }
 
-    public void fetchUserById(int id) {
+    public MutableLiveData<UserResponse> fetchUserById(int id) {
+        MutableLiveData<UserResponse> liveData = new MutableLiveData<>();
+
         service.getUser(id).enqueue(
                 new Callback<UserResponse>() {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.i("tst_rest_api", "onResponse Single user: " + response.body());
-                        Log.i("tst_rest_api", "onResponse Single user: " + response.body().getUser());
+                        liveData.postValue(response.body());
+
+//                        Log.i("tst_rest_api", "onResponse Single user: " + response.body());
+//                        Log.i("tst_rest_api", "onResponse Single user: " + response.body().getUser());
                     }
 
                     @Override
@@ -66,5 +70,7 @@ public class RemoteRepository {
                     }
                 }
         );
+
+        return liveData;
     }
 }
