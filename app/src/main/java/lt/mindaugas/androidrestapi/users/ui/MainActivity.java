@@ -1,7 +1,6 @@
 package lt.mindaugas.androidrestapi.users.ui;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +16,7 @@ import lt.mindaugas.androidrestapi.entity.User;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel = null;
     private ActivityMainBinding binding;
-    private ArrayAdapter<User> arrayAdapter;
+    private RecycleAdapter recycleAdapter;
     private List<User> users = new ArrayList<>();
 
     @Override
@@ -29,18 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setUpLiveDataObserver();
+        setUpRecyclerView();
     }
 
     private void setUpLiveDataObserver() {
         mainViewModel.getUsersResponseLiveData().observe(this, usersResponse -> {
             if (usersResponse != null) {
                 users.addAll(usersResponse.getData());
-                arrayAdapter.notifyDataSetChanged();
+                recycleAdapter.addToList(users);
             }
         });
     }
 
     private void setUpRecyclerView() {
         binding.usersRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        recycleAdapter = new RecycleAdapter(this, users);
+        binding.usersRecycleView.setAdapter(recycleAdapter);
+
     }
 }
