@@ -1,5 +1,6 @@
 package lt.mindaugas.androidrestapi.users.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +15,10 @@ import java.util.List;
 import lt.mindaugas.androidrestapi.R;
 import lt.mindaugas.androidrestapi.databinding.ActivityMainBinding;
 import lt.mindaugas.androidrestapi.entity.User;
+import lt.mindaugas.androidrestapi.user_details.UserDetailsActivity;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String MAIN_ACTIVITY_USER_ID = "user_ID";
     private MainViewModel mainViewModel = null;
     private ActivityMainBinding binding;
     private RecycleAdapter recycleAdapter;
@@ -53,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void onItemClick(int position) {
         User user = users.get(position);
-        Snackbar
-                .make(binding.getRoot(), "Click: " + user.getFirstName(), Snackbar.LENGTH_LONG)
-                .show();
+        Intent intent = new Intent(this, UserDetailsActivity.class);
+        intent.putExtra(MAIN_ACTIVITY_USER_ID, user.getId());
+        startActivity(intent);
     }
 
     private void onLongItemClick(int position) {
