@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         );
         binding.usersRecycleView.setAdapter(recycleAdapter);
 
-    }l
+    }
 
     private void onItemClick(int position) {
         User user = users.get(position);
