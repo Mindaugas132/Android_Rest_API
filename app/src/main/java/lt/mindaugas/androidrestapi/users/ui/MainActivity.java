@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +44,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         binding.usersRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new RecycleAdapter(this, users);
+        recycleAdapter = new RecycleAdapter(
+                this, users, this::onItemClick, this::onLongItemClick
+        );
         binding.usersRecycleView.setAdapter(recycleAdapter);
 
+    }l
+
+    private void onItemClick(int position) {
+        User user = users.get(position);
+        Snackbar
+                .make(binding.getRoot(), "Click: " + user.getFirstName(), Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    private void onLongItemClick(int position) {
+        User user = users.get(position);
+        Snackbar
+                .make(binding.getRoot(), "Long Click: " + user.getFirstName(), Snackbar.LENGTH_LONG)
+                .show();
     }
 }

@@ -17,10 +17,19 @@ import lt.mindaugas.androidrestapi.entity.User;
 public class RecycleAdapter extends RecyclerView.Adapter<ViewHolder> {
     private List<User> list;
     private Context context;
+    private OnItemClickListener listener;
+    private OnItemLongClickListener longClickListener;
 
-    public RecycleAdapter(Context context, List<User> list) {
+    public RecycleAdapter(
+            Context context,
+            List<User> list,
+            OnItemClickListener listener,
+            OnItemLongClickListener longClickListener
+    ) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
+        this.longClickListener = longClickListener;
     }
 
     public void addToList(List<User> list) {
@@ -36,7 +45,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<ViewHolder> {
                         LayoutInflater.from(parent.getContext()), parent, false
                 );
 
-        return new ViewHolder(binding, context);
+        return new ViewHolder(binding, context, listener, longClickListener);
     }
 
     @Override

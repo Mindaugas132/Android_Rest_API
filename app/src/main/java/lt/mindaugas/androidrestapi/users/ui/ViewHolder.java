@@ -19,7 +19,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     private final ImageView avatar;
     private final ConstraintLayout constraintLayout;
 
-    public ViewHolder(@NonNull RecyclerviewItemBinding binding, Context context) {
+    public ViewHolder(
+            @NonNull RecyclerviewItemBinding binding,
+            Context context,
+            OnItemClickListener listener,
+            OnItemLongClickListener longClickListener
+    ) {
         super(binding.getRoot());
 
         firstName = binding.firstNameTextView;
@@ -28,6 +33,26 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         avatar = binding.avatarImageView;
         constraintLayout = binding.itemLayout;
 
+        constraintLayout.setOnClickListener(
+                view -> {
+                    if (listener != null) {
+                        if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(getBindingAdapterPosition());
+                        }
+                    }
+                }
+        );
+
+        constraintLayout.setOnLongClickListener(
+                view -> {
+                    if (longClickListener != null) {
+                        if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                            longClickListener.onItemLongClick(getBindingAdapterPosition());
+                        }
+                    }
+                    return true;
+                }
+        );
 
     }
 }
