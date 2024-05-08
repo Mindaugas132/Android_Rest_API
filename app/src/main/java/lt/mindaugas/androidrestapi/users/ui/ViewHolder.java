@@ -1,6 +1,5 @@
 package lt.mindaugas.androidrestapi.users.ui;
 
-import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
