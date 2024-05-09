@@ -10,10 +10,10 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface UserDataService {
-    @GET("api/users")
+    @GET("/api/users")
     Call<UsersResponse> getAllUsers(@QueryMap Map<String, String> options);
 
-    @GET("api/users/{id}")
+    @GET("/api/users/{id}")
     Call<UserResponse> getUser(@Path("id") int id);
 
 }

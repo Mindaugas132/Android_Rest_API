@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Getter;
 import lt.mindaugas.androidrestapi.entity.UserResponse;
 import lt.mindaugas.androidrestapi.entity.UsersResponse;
 import lt.mindaugas.androidrestapi.network.UserDataService;
@@ -17,6 +18,11 @@ import retrofit2.Response;
 
 public class RemoteRepository {
     private UserDataService service;
+    @Getter
+    private final MutableLiveData<UsersResponse> usersLiveData = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<UserResponse> userDetailsLiveData = new MutableLiveData<>();
+
 
     public RemoteRepository() {
         this.service = UserServiceClient.getInstance().create(UserDataService.class);
@@ -27,17 +33,15 @@ public class RemoteRepository {
         requestParam.put("page", "1");
         requestParam.put("per_page", "12");
 
-        MutableLiveData<UsersResponse> liveData = new MutableLiveData<>();
 
         service.getAllUsers(requestParam).enqueue(
                 new Callback<UsersResponse>() {
                     @Override
                     public void onResponse(Call<UsersResponse> call, Response<UsersResponse> response) {
                         if (response.isSuccessful()) {
-                            liveData.postValue(response.body());
+                            usersLiveData.postValue(response.body());
+//                            usersLiveData.setValue(response.body()); works in main Thread, not recommended
                         }
-//                        Log.i("tst_rest_api", "onResponse: " + response.body());
-//                        Log.i("tst_rest_api", "onResponse: " + response.body().getData());
                     }
 
                     @Override
@@ -47,20 +51,19 @@ public class RemoteRepository {
                     }
                 }
         );
-        return liveData;
+        return usersLiveData;
     }
 
     public MutableLiveData<UserResponse> fetchUserById(int id) {
-        MutableLiveData<UserResponse> liveData = new MutableLiveData<>();
 
         service.getUser(id).enqueue(
                 new Callback<UserResponse>() {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        liveData.postValue(response.body());
 
-//                        Log.i("tst_rest_api", "onResponse Single user: " + response.body());
-//                        Log.i("tst_rest_api", "onResponse Single user: " + response.body().getUser());
+                        if (response.isSuccessful()) {
+                            userDetailsLiveData.postValue(response.body());
+                        }
                     }
 
                     @Override
@@ -71,6 +74,6 @@ public class RemoteRepository {
                 }
         );
 
-        return liveData;
+        return userDetailsLiveData;
     }
 }

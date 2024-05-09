@@ -33,7 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setUpLiveDataObserver();
+
         setUpRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mainViewModel.requestUsersResponse();
     }
 
     private void setUpLiveDataObserver() {

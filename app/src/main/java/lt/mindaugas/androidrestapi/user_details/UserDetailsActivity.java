@@ -11,6 +11,7 @@ import lt.mindaugas.androidrestapi.users.ui.MainActivity;
 public class UserDetailsActivity extends AppCompatActivity {
     private ActivityUserDetailsBinding binding;
     private UserDetailsViewModel viewModel = null;
+    long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +20,15 @@ public class UserDetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(UserDetailsViewModel.class);
-        long userId = getIntent().getLongExtra(MainActivity.MAIN_ACTIVITY_USER_ID, -1);
+        userId = getIntent().getLongExtra(MainActivity.MAIN_ACTIVITY_USER_ID, -1);
 
-        viewModel.requestUserResponse((int) userId);
         setUpLiveDataObserver();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewModel.requestUserResponse((int) userId);
     }
 
     private void setUpLiveDataObserver() {
