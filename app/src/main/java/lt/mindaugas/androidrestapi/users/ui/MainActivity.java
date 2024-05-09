@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpLiveDataObserver() {
         mainViewModel.getUsersResponseLiveData().observe(this, usersResponse -> {
-            if (usersResponse != null) {
+            if (usersResponse != null && recycleAdapter.getItemCount() == 0) {
                 users.addAll(usersResponse.getData());
                 recycleAdapter.addToList(users);
             }
